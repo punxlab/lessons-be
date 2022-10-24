@@ -21,5 +21,5 @@ func main() {
 		F: 1.2,
 	}
 
-	fmt.Printf("t=%v t2=%v \n", t, t2)
+	fmt.Printf("t=%v t2=%v HUY\n", t, t2)
 }
