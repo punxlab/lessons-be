@@ -1,25 +1,33 @@
 package main
 
-import "fmt"
+import (
+	"net/http"
 
-type T struct {
-	I int
-	S string
-}
-
-type T2 struct {
-	F float32
-}
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	t := T{
-		I: 1,
-		S: "str",
-	}
+	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"Origin"},
+	}))
 
-	t2 := T2{
-		F: 1.2,
-	}
+	r.GET("/user", func(c *gin.Context) {
+		id := c.Query("id")
+		if id == "1" {
+			c.JSON(http.StatusOK, gin.H{"name": "PASHA"})
+			return
+		}
 
-	fmt.Printf("t=%v t2=%v HUY\n", t, t2)
+		if id == "2" {
+			c.JSON(http.StatusOK, gin.H{"name": "TOXA"})
+			return
+		}
+
+		c.JSON(http.StatusNotFound, gin.H{"message": "not found"})
+	})
+
+	r.Run()
 }
